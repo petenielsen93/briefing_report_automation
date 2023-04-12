@@ -12,7 +12,7 @@ import pandas as pd
 from docxtpl import DocxTemplate
 import numpy as np
 #uploaded = files.upload()
-#import io
+import os
 import tkinter as tk
 from tkinter import filedialog
 
@@ -267,8 +267,10 @@ def clean_briefing_data():
     # Render the template with the context
     doc.render(context)
 
-    # Save the output document
-    doc.save("output.docx")
+    # Save the output document to user's downloads
+    downloads = os.path.join(os.path.expanduser("~"), "Downloads")
+    output_file_path = os.path.join(downloads, "output.docx")
+    doc.save(output_file_path)
 
 
 #create button to clean the file
