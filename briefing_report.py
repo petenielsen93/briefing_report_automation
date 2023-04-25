@@ -43,7 +43,7 @@ def clean_briefing_data():
     elif file_path.endswith('.csv'):
         briefing_df = pd.read_csv(file_path)
 
-
+    briefing_df = briefing_df[briefing_df["Company Name"] != 'Ace Infoway Pvt. Ltd.'] #testing this line to remove ace
     briefing_df = briefing_df.drop(columns=['IP Address', 'Demo', 'Comp'])
     briefing_df = briefing_df[briefing_df['Page Name'].str.contains('Briefing')]
     briefing_df['Created'] = pd.to_datetime(briefing_df['Created'])
