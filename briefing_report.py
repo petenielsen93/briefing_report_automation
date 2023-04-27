@@ -9,12 +9,13 @@ Original file is located at
 
 import pandas as pd
 #from google.colab import files
-from docxtpl import DocxTemplate
+from docxtpl import DocxTemplate, InlineImage
 import numpy as np
 #uploaded = files.upload()
 import os
 import tkinter as tk
 from tkinter import filedialog
+import matplotlib.pyplot as plt
 
 #creates the widget
 root = tk.Tk()
@@ -201,8 +202,22 @@ def clean_briefing_data():
 
 
 
+    n = 5 
+    top_companies = company_counts["Company Name"][:n].tolist()
+    other_companies = company_counts["Count"][n:].sum()
+    top_c_counts = company_counts["Count"][:n].tolist()
+    top_c_counts.append(other_companies)
+    top_companies.append('Others')
 
+    colors = ['#BF29FF', '#2D0080', '#0E1D66', '#261342', '#36454F', '#1C1854']
 
+    fig, ax = plt.subplots()
+    ax.pie(top_c_counts, colors=colors, labels=top_companies, autopct='%1.1f%%', textprops={'color': 'grey'})
+    ax.set_title('Most Active Companies - Briefings')
+
+    plt.savefig('briefingpiechart.png', bbox_inches='tight')
+
+    image = InlineImage(doc, 'briefingpiechart.png', height=2500000)
 #---------------------------------------------------------------------------------------#
 
 
@@ -262,7 +277,8 @@ def clean_briefing_data():
             "SUBSCRIBER": subscriber_total,
             "INTERNAL": internal_total,
             "SALES": sales_total,
-            "SOLUTIONS": solutions_total}
+            "SOLUTIONS": solutions_total,
+            "CHART": image}
 
     # Render the template with the context
     doc.render(context)
