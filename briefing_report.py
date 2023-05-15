@@ -16,6 +16,7 @@ import os
 import tkinter as tk
 from tkinter import filedialog
 import matplotlib.pyplot as plt
+import docx2pdf
 
 #creates the widget
 root = tk.Tk()
@@ -288,7 +289,10 @@ def clean_briefing_data():
     output_file_path = os.path.join(downloads, "output.docx")
     doc.save(output_file_path)
 
+    pdf_file_path = os.path.join(downloads, "output.pdf")#r
+    docx2pdf.convert(output_file_path, pdf_file_path)#r
 
+    return output_file_path, pdf_file_path #r
 #create button to clean the file
 clean_file_button = tk.Button(root, text = "Clean Briefing Report", command=clean_briefing_data)
 clean_file_button.pack(pady=10)
